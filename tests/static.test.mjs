@@ -10,5 +10,5 @@ test('standalone static configuration and local entry points',async()=>{
   const slug=project.apps[0][0];assert.match(html,new RegExp(`data-app="${slug}"`));
   const app=await readFile(`public/${slug}/app.js`,'utf8');assert.doesNotMatch(app,/\bfetch\s*\(/);assert.doesNotMatch(app,/\bapi\s*\(/);
   await readFile('public/about/index.html','utf8');
-  const boot=await readFile('public/shared/boot.js','utf8');assert.match(boot,/project\?\?await api/);
+  const boot=await readFile('public/shared/main.js','utf8');assert.match(boot,/project\?\?await api/);
 });

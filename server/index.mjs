@@ -110,7 +110,7 @@ export async function createApp(options = {}) {
         const groups={caption:['captions','report'],majority:['majority'],arena:['arena','posts','report'],decide:['poll','polls'],house:['rooms'],minute:['minute'],finds:['find','finds','posts','report'],memory:[],papers:[],mischief:[]};
         const prefix=path.split('/')[2];
         if (path.startsWith('/api/') && !['config','admin'].includes(prefix) && !groups[appId].includes(prefix)) throw new HttpError(404,'Адрес не найден.');
-        if (!path.startsWith('/api/') && !['',appId,'shared','admin','about','media','healthz','favicon.svg','robots.txt'].includes(path.split('/')[1])) throw new HttpError(404,'Страница не найдена.');
+        if (!path.startsWith('/api/') && !['',appId,'shared','locales','admin','about','media','healthz','favicon.svg','robots.txt'].includes(path.split('/')[1])) throw new HttpError(404,'Страница не найдена.');
       }
       if (path.startsWith('/api/')) {
         throttle(req,req.method === 'POST' ? 'write':'read',req.method === 'POST' ? 40:240);

@@ -13,8 +13,9 @@ export function toast(message) {
 export async function api(path, input, headers = {}) {
   const response = await fetch(path,{method:input===undefined?'GET':'POST',headers:{...(input===undefined?{}:{'Content-Type':'application/json'}),...headers},...(input===undefined?{}:{body:JSON.stringify(input)})});
   const result=await response.json();
-  if (!response.ok) {const error=new Error(result.error??'Не удалось выполнить запрос.');error.status=response.status;throw error;}
-  return result;
+  const {localizeResponse,localizeError}=await import('./editorial.js');
+  if (!response.ok) {const error=new Error(localizeError(result.error??'Не удалось выполнить запрос.'));error.status=response.status;throw error;}
+  return localizeResponse(path,result);
 }
 export function action(element, handler, event='click') {
   element.addEventListener(event,async e=>{
@@ -71,7 +72,7 @@ export function imageUpload(form) {
   return ()=>{if(working)throw new Error('Подождите, картинка ещё сжимается.');if(!image)throw new Error('Сначала добавьте картинку.');return image;};
 }
 export function uploadForm(kind) {
-  return `<form id="upload" class="panel stack"><h2>${kind==='arena'?'Новый претендент':'Новая находка'}</h2><label>Название<input name="title" maxlength="120" required placeholder="Что здесь происходит?"></label><label>Немного контекста<textarea name="body" maxlength="400" rows="2" placeholder="Необязательно"></textarea></label>${kind==='finds'?'<label>Раздел<select name="category"><option>Вывески</option><option>Объявления</option><option>Предметы</option><option>Другое</option></select></label>':''}<label class="file-drop">Выбрать картинку<input type="file" accept="image/jpeg,image/png,image/webp" required></label><img class="upload-preview" alt="Предпросмотр загрузки" width="400" height="240" hidden><p class="upload-status muted">JPEG, PNG или WebP. Сожмём до 500 КБ прямо здесь.</p><button type="submit">Отправить на модерацию <span aria-hidden="true">↗</span></button><p class="small muted">Публикуйте свои материалы или те, на публикацию которых у вас есть разрешение.</p></form>`;
+  return `<form id="upload" class="panel stack"><h2>${kind==='arena'?'Новый претендент':'Новая находка'}</h2><label>Название<input name="title" maxlength="120" required placeholder="Что здесь происходит?"></label><label>Немного контекста<textarea name="body" maxlength="400" rows="2" placeholder="Необязательно"></textarea></label>${kind==='finds'?'<label>Раздел<select name="category"><option value="\u0412\u044b\u0432\u0435\u0441\u043a\u0438">Вывески</option><option value="\u041e\u0431\u044a\u044f\u0432\u043b\u0435\u043d\u0438\u044f">Объявления</option><option value="\u041f\u0440\u0435\u0434\u043c\u0435\u0442\u044b">Предметы</option><option value="\u0414\u0440\u0443\u0433\u043e\u0435">Другое</option></select></label>':''}<label class="file-drop">Выбрать картинку<input type="file" accept="image/jpeg,image/png,image/webp" required></label><img class="upload-preview" alt="Предпросмотр загрузки" width="400" height="240" hidden><p class="upload-status muted">JPEG, PNG или WebP. Сожмём до 500 КБ прямо здесь.</p><button type="submit">Отправить на модерацию <span aria-hidden="true">↗</span></button><p class="small muted">Публикуйте свои материалы или те, на публикацию которых у вас есть разрешение.</p></form>`;
 }
 export function wireUpload(kind) {
   const form=$('#upload'),image=imageUpload(form);

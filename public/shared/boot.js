@@ -1,21 +1,16 @@
-import { $, api, escape, toast } from './ui.js';
-import { project } from './project.js';
-const app=document.body.dataset.app;
-async function boot() {
-  const config=project??await api('/api/config');
-  const nav=config.apps.map(([slug,name])=>`<a href="/${slug}/"${slug===app?' aria-current="page"':''}>${escape(name)}</a>`).join('');
-  $('#navigation').innerHTML=nav;
-  if(app==='home') {
-    $('#app').innerHTML=`<section class="home-intro"><div><p class="eyebrow">ДЕВЯТЬ ПОВОДОВ ОТВЛЕЧЬСЯ</p><h1>У тебя есть<br>минутка<span class="orange">?</span></h1><p class="lede">Порисуй, поспорь, придумай подпись.<br>Маленькие развлечения для большого перерыва.</p><a class="button" href="/caption/">Начать с подписи дня <span aria-hidden="true">↗</span></a></div><div class="home-art" aria-hidden="true"><div class="art-orbit"></div><div class="art-square">m.</div><span class="art-note">дела подождут<br>ровно минуту</span><span class="art-star">✳</span></div></section><section class="app-grid" aria-label="Все развлечения">${config.apps.map(([slug,name,description,,number])=>`<a class="app-card theme-${slug}" href="/${slug}/"><div class="card-top"><span class="small">${number} /</span><span class="card-symbol" aria-hidden="true">${{caption:'“ ”',majority:'½',arena:'vs',memory:'↶',papers:'§',decide:'?',house:'▦',minute:'60',finds:'!'}[slug]}</span><span class="card-arrow" aria-hidden="true">↗</span></div><h2>${name}</h2><p>${description}</p></a>`).join('')}</section><p class="home-note">Без регистрации. Без установки. Просто открой и попробуй.</p>`;
-  } else if(app==='mischief') {
-    const {mount}=await import('/mischief/app.js');await mount(config);
-  } else if(app==='admin') {
-    const {mount}=await import('/admin/app.js');await mount(config);
-  } else {
-    const item=config.apps.find(([slug])=>slug===app);
-    if(!item)throw new Error('Раздел не найден.');
-    $('#hero').innerHTML=`<a class="back" href="/">← Все развлечения</a><div class="title-row"><div><p class="eyebrow">МИНУТА КЛУБ / ${item[4]}</p><h1>${escape(item[1])}</h1><p class="lede">${escape(item[2])}</p></div><span class="hero-symbol" aria-hidden="true">${{caption:'“',majority:'½',arena:'vs',memory:'↶',papers:'§',decide:'?',house:'▦',minute:'60',finds:'!'}[app]}</span></div>`;
-    const {mount}=await import(`/${app}/app.js`);await mount(config);
-  }
-}
-boot().catch(error=>{toast(error.message);$('#app').innerHTML='<div class="empty panel"><h2>Не удалось загрузить</h2><p>Проверьте соединение и попробуйте ещё раз.</p><button id="reload">Повторить</button></div>';$('#reload').onclick=()=>location.reload();});
+const language=document.documentElement.lang;
+const locale=['en','es','ru'].includes(language)?language:'en';
+try{
+  const path=location.pathname.endsWith('/')?`${location.pathname}index.html`:location.pathname;
+  const response=await fetch(`/locales/${locale}/pages${path}`);
+  if(!response.ok)throw new Error('Unable to load language assets');
+  const page=new DOMParser().parseFromString(await response.text(),'text/html');
+  document.title=page.title;
+  document.querySelector('meta[name="description"]')?.setAttribute('content',page.querySelector('meta[name="description"]')?.content??'');
+  document.body.replaceWith(page.body);
+  await import(`/locales/${locale}/shared/main.js`);
+}catch(error){
+  const target=document.getElementById('app')??document.body;
+  target.textContent=({en:'Unable to load. Please reload the page.',es:'No se ha podido cargar. Recarga la página.',ru:'Не удалось загрузить. Обновите страницу.'})[locale];
+  console.error(error);
+}finally{delete document.documentElement.dataset.languageLoading;}

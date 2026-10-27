@@ -2,7 +2,7 @@
 
 Answer unusual would-you-rather questions and discover whether you agree with the crowd.
 
-The interface is in Russian. Independent, lightweight HTML/CSS/JavaScript with no third-party browser dependencies, remote fonts, analytics, or CDN.
+English, Spanish, and Russian interfaces, selected from browser language preferences or a saved manual choice. Light, dark, and system themes. Independent, lightweight HTML/CSS/JavaScript with no third-party browser dependencies, remote fonts, analytics, or CDN.
 
 ## Quick start
 

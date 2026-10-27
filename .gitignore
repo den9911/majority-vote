@@ -154,3 +154,9 @@ data/
 coverage/
 *.sqlite*
 node_modules/
+
+# Application data
+data/
+.env
+node_modules/
+coverage/
