@@ -11,6 +11,12 @@
     "dev": "HOST=0.0.0.0 node --watch server/index.mjs",
     "test": "node --test tests/*.test.mjs",
     "check": "node ops/check.mjs",
-    "build": "node ops/localize.mjs"
+    "build": "node ops/typescript.mjs && node ops/localize.mjs",
+    "typecheck": "tsc --noEmit",
+    "check:generated": "node ops/typescript.mjs --check"
+  },
+  "devDependencies": {
+    "@types/node": "24.10.1",
+    "typescript": "5.9.3"
   }
 }

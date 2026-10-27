@@ -31,6 +31,7 @@ test('theme is applied before paint, even when storage is blocked',async()=>{
 test('editorial translation preserves user content and stable server identifiers',async()=>{
   for(const language of ['en','es','ru']){
     const {localizeResponse,localizeError,categories}=await import(`../public/locales/${language}/shared/editorial.js`);
+    assert.deepEqual(localizeResponse('/api/majority',{ok:true}),{ok:true});
     assert.equal(categories[0].value,'Вывески');
     if(language!=='ru')assert.doesNotMatch(categories[0].label,/[А-Яа-яЁё]/);
     const userPost={id:'user-post',title:'Мой Rust-проект',body:'Mi texto original',category:'Вывески'};

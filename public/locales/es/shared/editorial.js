@@ -15,7 +15,7 @@ const seed=post=>{const match=/^seed-(\d+)$/.exec(post.id);const item=match?meme
 export function localizeResponse(path,data){
   const route=path.split('?')[0];
   if(route==='/api/config')return {...data,apps:data.apps.map(item=>apps.find(a=>a[0]===item[0])??item)};
-  if(route==='/api/majority')return {...data,questions:data.questions.map(q=>({...q,question:questions[q.id][0],options:questions[q.id].slice(1)}))};
+  if(route==='/api/majority' && Array.isArray(data.questions))return {...data,questions:data.questions.map(q=>({...q,question:questions[q.id][0],options:questions[q.id].slice(1)}))};
   if(route==='/api/arena')return {...data,pair:data.pair?.map(seed)??null,leaders:data.leaders.map(seed)};
   if(route==='/api/finds')return {...data,entries:data.entries.map(categoryLabel)};
   if(route==='/api/find')return categoryLabel(data);
