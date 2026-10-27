@@ -147,3 +147,10 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+
+# Application runtime data
+data/
+.env
+coverage/
+*.sqlite*
+node_modules/
