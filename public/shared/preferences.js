@@ -8,7 +8,7 @@
             saved = parsed;
     }
     catch { /* Storage may be blocked; browser preferences still work. */ }
-    const supported = ['en', 'es', 'ru'];
+    const supported = ['en', 'ru'];
     const preferred = (navigator.languages?.length ? navigator.languages : [navigator.language]).map(value => String(value).toLowerCase().split(/[-_]/)[0] ?? '');
     const language = typeof saved.language === 'string' && supported.includes(saved.language) ? saved.language : preferred.find(value => supported.includes(value)) ?? 'en';
     const choice = saved.theme === 'light' || saved.theme === 'dark' ? saved.theme : 'system';

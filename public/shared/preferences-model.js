@@ -1,4 +1,4 @@
-export const languages = ['en', 'es', 'ru'];
+export const languages = ['en', 'ru'];
 export function isLanguage(value) {
     return typeof value === 'string' && languages.some(language => language === value);
 }

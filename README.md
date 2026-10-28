@@ -1,18 +1,43 @@
+<div align="center">
+
+<img src="assets/icon.svg" width="88" height="88" alt="Majority Vote">
+
 # Majority Vote
 
-**How predictable is the crowd?**
+**Can you read the room?**
 
-Predict the majority, answer an unusual question, then reveal the real voting split.
+Predict the majority, cast your vote, then see where you stand.
 
-![Majority Vote: actual running application with English interface and light theme](assets/preview.jpg)
+**English** · [Русский](README.ru.md)
 
-*Actual browser capture of the application, using local example data. Votes and completion counts shown are demonstration interactions, not audience statistics.*
+![platform: Node.js 24+](https://img.shields.io/badge/platform-Node.js_24%2B-287f76?style=flat-square&logo=nodedotjs&logoColor=white) ![source: JS + TS](https://img.shields.io/badge/source-JS_%2B_TS-5966b7?style=flat-square&logo=typescript&logoColor=white) ![UI: Light + Dark](https://img.shields.io/badge/UI-Light_%2B_Dark-555555?style=flat-square)
 
-### Try the flow
+</div>
 
-Choose a prediction → answer for yourself → compare your choice with the percentage bars.
+[Features](#features) · [Stack](#technology-stack) · [Quick start](#quick-start) · [License](LICENSE)
 
-English, Español, and Русский are selected from browser preferences, with a manual language selector. Light, dark, and system themes are available in every app. Native HTML, CSS, and JavaScript; no third-party browser libraries, external fonts, trackers, or CDN requests.
+![Majority Vote: running application with the English interface](assets/preview.jpg)
+
+*Actual application capture with example data. Visible counts are demonstration interactions, not audience statistics.*
+
+## Features
+
+- Twelve editorial questions
+- Optional predictions before answering
+- Results based on actual visitor votes
+
+**Try the flow: Predict → answer → reveal the split.**
+
+Documentation: English / Русский. App interface: English, Русский, selected from browser preferences or manually. System theme by default, with explicit light and dark modes. The system mode follows device changes; your choice is saved locally.
+
+## Technology stack
+
+| Layer | Implementation |
+| --- | --- |
+| Interface | HTML · CSS · JavaScript / native ES modules |
+| Runtime | Node.js 24+ · SQLite |
+| Development | TypeScript for preferences and server validation; the rest is JavaScript |
+| Dependencies | No third-party browser libraries or remote fonts |
 
 ## Quick start
 
@@ -50,4 +75,8 @@ npm run check
 
 `src/preferences*.ts` is the source for language negotiation and the early theme bootstrap. Server projects also compile `src/validation.mts` into `server/validation.mjs`. `src/contracts.ts` describes shared data shapes. The compiler uses strict mode, checked indexed access, and exact optional properties; errors block emission. Edit these TypeScript sources, then rebuild. Other existing application modules are still JavaScript: this is an incremental migration, not a claim of complete TypeScript coverage.
 
-The build emits ordinary ES2022 JavaScript, then compiles the three locale variants. No compiler or framework is shipped to visitors. CI checks types, generated output, behavior, and the asset budget.
+The build emits ordinary ES2022 JavaScript, then compiles the two locale variants. No compiler or framework is shipped to visitors. CI checks types, generated output, behavior, and the asset budget.
+
+---
+
+[More by den9911](https://github.com/den9911) · [Report an issue](https://github.com/den9911/majority-vote/issues) · [LICENSE](LICENSE)

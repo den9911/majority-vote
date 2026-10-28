@@ -1,4 +1,4 @@
-export const languages = ['en', 'es', 'ru'] as const;
+export const languages = ['en', 'ru'] as const;
 export type Language = (typeof languages)[number];
 export type ThemeChoice = 'system' | 'light' | 'dark';
 export type ResolvedTheme = Exclude<ThemeChoice, 'system'>;

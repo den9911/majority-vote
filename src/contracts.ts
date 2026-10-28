@@ -1,5 +1,5 @@
 /** Stable boundaries shared by UI and HTTP services. User text is never translated. */
-export type Language = 'en' | 'es' | 'ru';
+export type Language = 'en' | 'ru';
 export type ThemeChoice = 'system' | 'light' | 'dark';
 export type VoteChoice = 0 | 1;
 export interface MajorityQuestion { id: number; question: string; options: [string, string]; counts: [number, number]; choice: string | null }
