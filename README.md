@@ -22,7 +22,7 @@ Predict the majority, cast your vote, then see where you stand.
 
 ## Features
 
-- Twelve editorial questions
+- Thirty editorial questions
 - Optional predictions before answering
 - Results based on actual visitor votes
 
@@ -58,7 +58,7 @@ npm run check
 
 Set `PUBLIC_ORIGIN` to the exact HTTPS origin, give the process a persistent `DATA_DIR`, and put an HTTPS reverse proxy in front. Example Dockerfile, Caddy config, environment file, and systemd unit are included. Each independent project needs its own port and data directory. `.env` is not loaded automatically: use exported variables or `node --env-file=.env server/index.mjs`. See [OPERATIONS.md](OPERATIONS.md) for backups, moderation, identity limitations, and storage details.
 
-Twelve editorial questions include an optional local prediction before answering. Percentages use actual visitor votes. There are no seeded votes or fabricated totals.
+Thirty editorial questions include an optional local prediction before answering. Percentages use actual visitor votes. There are no seeded votes or fabricated totals.
 
 ## Develop with TypeScript
 
