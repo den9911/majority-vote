@@ -80,3 +80,10 @@ The build emits ordinary ES2022 JavaScript, then compiles the two locale variant
 ---
 
 [More by den9911](https://github.com/den9911) · [Report an issue](https://github.com/den9911/majority-vote/issues) · [LICENSE](LICENSE)
+
+
+## Recent improvements / Последние улучшения
+
+
+
+Startup diagnostics / Проверка запуска: `node server/index.mjs --check` checks the local address, configuration and writable data location without creating a database or starting the API. To use another port: `--port 3005`. No tokens are printed. / База и сервер при проверке не создаются; секреты не выводятся.
