@@ -543,3 +543,16 @@ Cookies и черновики|Cookies and drafts
 Спонтанное путешествие или тщательно спланированный отпуск?|A spontaneous trip or a carefully planned holiday?
 Спонтанная поездка|Spontaneous trip
 Подробный план|Detailed plan
+Нужен постоянный ID вопроса. Обновите страницу.|A stable question ID is required. Refresh the page.
+Вопрос больше недоступен. Выберите другой.|This question is no longer available. Choose another.
+Формулировка вопроса обновилась. Проверьте её перед ответом.|The question wording changed. Review it before answering.
+Сервер обновляется. Перезагрузите страницу через минуту.|The server is updating. Reload the page in a minute.
+Этот вопрос больше недоступен|This question is no longer available
+Старая ссылка не перенаправлена на другой вопрос. Сохранённые ответы остаются в истории сервера.|This old link has not been redirected to a different question. Saved answers remain in the server history.
+Выбрать доступный вопрос|Choose an available question
+Старые прогнозы сохранены на устройстве, но не привязаны к новым ID: их версию нельзя подтвердить. Сделайте новый прогноз.|Old predictions remain on this device but cannot be linked to new IDs: their version cannot be verified. Make a new prediction.
+Понятно|Got it
+Часть старых ответов не удалось однозначно сопоставить. Они сохранены без изменения и не добавлены к другим вопросам.|Some old answers could not be matched reliably. They remain unchanged and have not been added to other questions.
+Формулировка обновилась. Здесь показан вопрос, на который вы отвечали; ваш голос сохранён.|The wording changed. This is the question you answered; your vote is preserved.
+Ответ не подтверждён. Проверьте соединение и повторите тот же выбор после обновления страницы.|Your answer is unconfirmed. Check your connection, refresh the page, then retry the same choice.
+Прогнозы и реальные ответы|Predictions and real answers

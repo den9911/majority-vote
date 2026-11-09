@@ -18,7 +18,7 @@ async function boot() {
   } else {
     const item=config.apps.find(([slug])=>slug===app);
     if(!item)throw new Error('Раздел не найден.');
-    const facts={caption:'Новая картинка каждый день',majority:'12 необычных вопросов',arena:'Один победитель в каждой паре',memory:'30 секунд на рисунок',papers:'3 документа с характером',decide:'Твой вопрос. Общий выбор.',house:'16 × 16 пикселей для себя',minute:'25 слов. Одно лишнее.',finds:'Маленькие открытия каждый день'};
+    const facts={caption:'Новая картинка каждый день',majority:'Прогнозы и реальные ответы',arena:'Один победитель в каждой паре',memory:'30 секунд на рисунок',papers:'3 документа с характером',decide:'Твой вопрос. Общий выбор.',house:'16 × 16 пикселей для себя',minute:'25 слов. Одно лишнее.',finds:'Маленькие открытия каждый день'};
     $('#hero').innerHTML=`${config.apps.length>1?'<a class="back" href="/">← Все развлечения</a>':''}<div class="title-row"><div><p class="eyebrow">МИНУТА КЛУБ / ${item[4]}</p><h1>${escape(item[1])}</h1><p class="lede">${escape(item[2])}</p><div class="hero-context"><span class="context-symbol" aria-hidden="true">✳</span><span>${facts[app]}</span></div></div><span class="hero-symbol" aria-hidden="true">${{caption:'“',majority:'½',arena:'vs',memory:'↶',papers:'§',decide:'?',house:'▦',minute:'60',finds:'!'}[app]}</span></div>`;
     const {mount}=await import(`/${app}/app.js`);await mount(config);
   }

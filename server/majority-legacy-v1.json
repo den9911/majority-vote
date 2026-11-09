@@ -1,0 +1,482 @@
+[
+  {
+    "id": "music-or-sweets",
+    "revision": 1,
+    "question": "Год без музыки или год без сладкого?",
+    "options": [
+      "Без музыки",
+      "Без сладкого"
+    ],
+    "en": {
+      "question": "A year without music or a year without sweets?",
+      "options": [
+        "No music",
+        "No sweets"
+      ]
+    }
+  },
+  {
+    "id": "honest-fanfare",
+    "revision": 1,
+    "question": "Миллион, но при каждой твоей лжи звучат фанфары. Согласен?",
+    "options": [
+      "Где подписать?",
+      "Оставлю тишину"
+    ],
+    "en": {
+      "question": "A million, but trumpets play whenever you lie. Deal?",
+      "options": [
+        "Where do I sign?",
+        "I will keep the peace"
+      ]
+    }
+  },
+  {
+    "id": "flight-or-teleport",
+    "revision": 1,
+    "question": "Уметь летать или телепортироваться?",
+    "options": [
+      "Летать",
+      "Телепортироваться"
+    ],
+    "en": {
+      "question": "Would you rather fly or teleport?",
+      "options": [
+        "Fly",
+        "Teleport"
+      ]
+    }
+  },
+  {
+    "id": "time-or-socks",
+    "revision": 1,
+    "question": "Всегда знать время или всегда находить потерянные носки?",
+    "options": [
+      "Знать время",
+      "Находить носки"
+    ],
+    "en": {
+      "question": "Always know the time or always find missing socks?",
+      "options": [
+        "Know the time",
+        "Find socks"
+      ]
+    }
+  },
+  {
+    "id": "wednesday-or-friday",
+    "revision": 1,
+    "question": "Выходной в среду или сокращённая пятница?",
+    "options": [
+      "Выходной в среду",
+      "Короткая пятница"
+    ],
+    "en": {
+      "question": "Wednesday off or a shorter Friday?",
+      "options": [
+        "Wednesday off",
+        "Shorter Friday"
+      ]
+    }
+  },
+  {
+    "id": "cats-or-birds",
+    "revision": 1,
+    "question": "Читать мысли кота или понимать язык птиц?",
+    "options": [
+      "Мысли кота",
+      "Язык птиц"
+    ],
+    "en": {
+      "question": "Read your cat’s mind or understand birds?",
+      "options": [
+        "Cat thoughts",
+        "Bird language"
+      ]
+    }
+  },
+  {
+    "id": "summer-or-autumn",
+    "revision": 1,
+    "question": "Навсегда лето или навсегда осень?",
+    "options": [
+      "Лето",
+      "Осень"
+    ],
+    "en": {
+      "question": "Endless summer or endless autumn?",
+      "options": [
+        "Summer",
+        "Autumn"
+      ]
+    }
+  },
+  {
+    "id": "late-or-early",
+    "revision": 1,
+    "question": "Всюду опаздывать на пять минут или приходить на час раньше?",
+    "options": [
+      "Пять минут",
+      "Час раньше"
+    ],
+    "en": {
+      "question": "Always five minutes late or an hour early?",
+      "options": [
+        "Five minutes late",
+        "An hour early"
+      ]
+    }
+  },
+  {
+    "id": "coffee-or-transit",
+    "revision": 1,
+    "question": "Бесплатный кофе или бесплатный общественный транспорт?",
+    "options": [
+      "Кофе",
+      "Транспорт"
+    ],
+    "en": {
+      "question": "Free coffee or free public transport?",
+      "options": [
+        "Coffee",
+        "Transport"
+      ]
+    }
+  },
+  {
+    "id": "sea-or-city",
+    "revision": 1,
+    "question": "Домик у моря или квартира в любимом городе?",
+    "options": [
+      "Море",
+      "Город"
+    ],
+    "en": {
+      "question": "A seaside cottage or a flat in your favorite city?",
+      "options": [
+        "The seaside",
+        "The city"
+      ]
+    }
+  },
+  {
+    "id": "memory-or-sleep",
+    "revision": 1,
+    "question": "Идеальная память или умение быстро засыпать?",
+    "options": [
+      "Память",
+      "Сон"
+    ],
+    "en": {
+      "question": "Perfect memory or falling asleep instantly?",
+      "options": [
+        "Memory",
+        "Sleep"
+      ]
+    }
+  },
+  {
+    "id": "future-or-past",
+    "revision": 1,
+    "question": "Ужин с собой из будущего или из прошлого?",
+    "options": [
+      "Будущее",
+      "Прошлое"
+    ],
+    "en": {
+      "question": "Dinner with your future self or your past self?",
+      "options": [
+        "Future",
+        "Past"
+      ]
+    }
+  },
+  {
+    "id": "breakfast-or-friends",
+    "revision": 1,
+    "question": "Завтракать каждый день в кафе или всегда ужинать с друзьями?",
+    "options": [
+      "Завтрак в кафе",
+      "Ужин с друзьями"
+    ],
+    "en": {
+      "question": "Breakfast at a cafe every day or dinner with friends every evening?",
+      "options": [
+        "Cafe breakfast",
+        "Dinner with friends"
+      ]
+    }
+  },
+  {
+    "id": "sea-or-mountains",
+    "revision": 1,
+    "question": "Один месяц у моря или один месяц в горах?",
+    "options": [
+      "Месяц у моря",
+      "Месяц в горах"
+    ],
+    "en": {
+      "question": "A month by the sea or a month in the mountains?",
+      "options": [
+        "By the sea",
+        "In the mountains"
+      ]
+    }
+  },
+  {
+    "id": "route-or-walk",
+    "revision": 1,
+    "question": "Найти идеальный маршрут домой или идеальное место для прогулок?",
+    "options": [
+      "Маршрут домой",
+      "Место для прогулок"
+    ],
+    "en": {
+      "question": "Find the perfect route home or the perfect place for a walk?",
+      "options": [
+        "Route home",
+        "Place to walk"
+      ]
+    }
+  },
+  {
+    "id": "train-or-bicycle",
+    "revision": 1,
+    "question": "Путешествовать только на поезде или только на велосипеде?",
+    "options": [
+      "На поезде",
+      "На велосипеде"
+    ],
+    "en": {
+      "question": "Travel only by train or only by bicycle?",
+      "options": [
+        "By train",
+        "By bicycle"
+      ]
+    }
+  },
+  {
+    "id": "languages-or-music",
+    "revision": 1,
+    "question": "Понимать все языки или играть на любом инструменте?",
+    "options": [
+      "Понимать языки",
+      "Играть музыку"
+    ],
+    "en": {
+      "question": "Understand every language or play every instrument?",
+      "options": [
+        "Understand languages",
+        "Play music"
+      ]
+    }
+  },
+  {
+    "id": "table-or-queue",
+    "revision": 1,
+    "question": "Всегда получать лучший столик или всегда избегать очередей?",
+    "options": [
+      "Лучший столик",
+      "Без очередей"
+    ],
+    "en": {
+      "question": "Always get the best table or never wait in line?",
+      "options": [
+        "Best table",
+        "No queues"
+      ]
+    }
+  },
+  {
+    "id": "new-or-favorite-food",
+    "revision": 1,
+    "question": "Весь год пробовать новые блюда или весь год есть любимые?",
+    "options": [
+      "Новые блюда",
+      "Любимые блюда"
+    ],
+    "en": {
+      "question": "Try new dishes all year or eat your favorites all year?",
+      "options": [
+        "New dishes",
+        "Old favorites"
+      ]
+    }
+  },
+  {
+    "id": "bookshop-or-cafe",
+    "revision": 1,
+    "question": "Открыть книжный магазин или маленькое кафе?",
+    "options": [
+      "Книжный магазин",
+      "Маленькое кафе"
+    ],
+    "en": {
+      "question": "Open a bookshop or a little cafe?",
+      "options": [
+        "Bookshop",
+        "Little cafe"
+      ]
+    }
+  },
+  {
+    "id": "phone-or-talk",
+    "revision": 1,
+    "question": "День без телефона или день без разговоров?",
+    "options": [
+      "Без телефона",
+      "Без разговоров"
+    ],
+    "en": {
+      "question": "A day without your phone or a day without talking?",
+      "options": [
+        "No phone",
+        "No talking"
+      ]
+    }
+  },
+  {
+    "id": "sunrise-or-sunset",
+    "revision": 1,
+    "question": "Всегда видеть рассвет или всегда видеть закат?",
+    "options": [
+      "Рассвет",
+      "Закат"
+    ],
+    "en": {
+      "question": "Always see the sunrise or always see the sunset?",
+      "options": [
+        "Sunrise",
+        "Sunset"
+      ]
+    }
+  },
+  {
+    "id": "postcards-or-calls",
+    "revision": 1,
+    "question": "Получать открытку каждую неделю или неожиданный звонок каждый месяц?",
+    "options": [
+      "Открытка каждую неделю",
+      "Звонок каждый месяц"
+    ],
+    "en": {
+      "question": "A postcard every week or a surprise call every month?",
+      "options": [
+        "Weekly postcard",
+        "Monthly call"
+      ]
+    }
+  },
+  {
+    "id": "photos-or-stories",
+    "revision": 1,
+    "question": "Уметь отлично фотографировать или прекрасно рассказывать истории?",
+    "options": [
+      "Фотографировать",
+      "Рассказывать истории"
+    ],
+    "en": {
+      "question": "Take brilliant photos or tell wonderful stories?",
+      "options": [
+        "Take photos",
+        "Tell stories"
+      ]
+    }
+  },
+  {
+    "id": "park-or-museum",
+    "revision": 1,
+    "question": "Жить рядом с парком или рядом с любимым музеем?",
+    "options": [
+      "Рядом с парком",
+      "Рядом с музеем"
+    ],
+    "en": {
+      "question": "Live near a park or near your favorite museum?",
+      "options": [
+        "Near a park",
+        "Near a museum"
+      ]
+    }
+  },
+  {
+    "id": "evening-or-morning",
+    "revision": 1,
+    "question": "Всегда иметь свободный вечер или свободное утро?",
+    "options": [
+      "Свободный вечер",
+      "Свободное утро"
+    ],
+    "en": {
+      "question": "Always have a free evening or a free morning?",
+      "options": [
+        "Free evening",
+        "Free morning"
+      ]
+    }
+  },
+  {
+    "id": "notes-or-photos",
+    "revision": 1,
+    "question": "Найти забытую книгу с заметками или коробку старых фотографий?",
+    "options": [
+      "Книга с заметками",
+      "Старые фотографии"
+    ],
+    "en": {
+      "question": "Find an annotated old book or a box of old photographs?",
+      "options": [
+        "Annotated book",
+        "Old photographs"
+      ]
+    }
+  },
+  {
+    "id": "games-or-live-music",
+    "revision": 1,
+    "question": "Вечер настольных игр или вечер живой музыки?",
+    "options": [
+      "Настольные игры",
+      "Живая музыка"
+    ],
+    "en": {
+      "question": "Board game night or live music night?",
+      "options": [
+        "Board games",
+        "Live music"
+      ]
+    }
+  },
+  {
+    "id": "stars-or-plants",
+    "revision": 1,
+    "question": "Знать все созвездия или узнавать все растения?",
+    "options": [
+      "Все созвездия",
+      "Все растения"
+    ],
+    "en": {
+      "question": "Recognize every constellation or identify every plant?",
+      "options": [
+        "Constellations",
+        "Plants"
+      ]
+    }
+  },
+  {
+    "id": "spontaneous-or-planned",
+    "revision": 1,
+    "question": "Спонтанное путешествие или тщательно спланированный отпуск?",
+    "options": [
+      "Спонтанная поездка",
+      "Подробный план"
+    ],
+    "en": {
+      "question": "A spontaneous trip or a carefully planned holiday?",
+      "options": [
+        "Spontaneous trip",
+        "Detailed plan"
+      ]
+    }
+  }
+]

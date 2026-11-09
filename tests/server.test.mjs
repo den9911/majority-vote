@@ -72,8 +72,8 @@ test('all community workflows persist and enforce their invariants',async t=>{
   });
   await t.test('majority: only real counts, one answer per question',async()=>{
     let result=(await alice('/api/majority')).body;assert.equal(result.questions.length,questions.length);assert.deepEqual(result.questions[0].counts,[0,0]);
-    assert.equal((await alice('/api/majority',{id:0,choice:1})).status,200);
-    assert.equal((await alice('/api/majority',{id:0,choice:0})).status,409);
+    assert.equal((await alice('/api/majority',{id:questions[0].id,revision:1,choice:1})).status,200);
+    assert.equal((await alice('/api/majority',{id:questions[0].id,revision:1,choice:0})).status,409);
     result=(await alice('/api/majority')).body;assert.deepEqual(result.questions[0].counts,[0,1]);assert.equal(result.questions[0].choice,'1');
     assert.equal((await bob('/api/majority',{id:999,choice:0})).status,400);
   });

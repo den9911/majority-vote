@@ -89,3 +89,15 @@ node --test --experimental-test-coverage tests/server.test.mjs
 ```
 
 UI interactions must also be checked in a real browser. Automated server coverage does not measure browser canvas behavior, mobile layout, or abuse resistance under a production workload.
+
+## Stable question identities
+
+`server/majority-questions.json` is the active bilingual catalog (1–200 entries). IDs are permanent slugs, with two immutable options per language. Reorder freely. For a wording clarification, increment `revision`; previous answers display their stored wording snapshot. For a changed meaning, translation meaning, or options/order, create a new ID. A revision cannot be reused with different wording or downgraded. Removing an active question hides it without deleting its answers or revisions; its link shows an explicit unavailable state.
+
+`server/majority-legacy-v1.json` and its SHA-256 fingerprint are frozen migration evidence, not editable content. The initial 12 questions in commit `6382cf15bac35525e308db22f61208d0ff1d644a` match the first 12 in the 30-question expansion `0a8cd025cbdac674ee9ca9dced271af505460494`. This verified map imports exact numeric targets `0`–`29` once, in one transaction, preserving original `votes` rows. Unknown targets, invalid choices and conflicting rows remain untouched and surface an unassigned-data notice for the affected visitor. Existing stable answers win conflicts. Do not guess mappings for independently modified historical deployments; audit their catalog before upgrading.
+
+Stop the old process, make and verify a backup of SQLite and `session-key`, then start this version. Do not run old/new server binaries against one database: the old binary writes only legacy rows. A failed migration stops startup and rolls back its writes; fix the cause and retry, without deleting the database or migration marker. Rollback of the application version requires restoring the pre-upgrade backup: the old version cannot see new stable-table answers. Restore drills and power-loss durability are not claimed by this change.
+
+POST `/api/majority` accepts `{id: string, revision: number, choice: 0 | 1}`, at most 1024 request bytes. Numeric IDs fail with 400. Missing active IDs fail with 404; a stale revision or different second answer fails with 409. Retrying the same saved choice returns 200 with `duplicate: true` and does not add a vote. Browser results are confirmed by GET, never optimistic. A lost response triggers a read, not an automatic second write; if both reads fail, the user sees an unconfirmed-answer message.
+
+Forecasts are browser-local, separate from votes. New records use permanent IDs and a revision, with at most 200 records. Old numeric forecast keys do not record their source catalog version, so they are preserved but ignored with a dismissible notice. Unknown/retired numeric links do not resolve through current array order. Public counters include only saved answers. Cookie loss still means a new browser identity; this does not add account recovery or cross-device voting protection.

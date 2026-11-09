@@ -18,7 +18,7 @@ async function boot() {
   } else {
     const item=config.apps.find(([slug])=>slug===app);
     if(!item)throw new Error('Section not found.');
-    const facts={caption:'A fresh picture every day',majority:'12 unusual questions',arena:'One winner in every pair',memory:'30 seconds to sketch',papers:'3 documents with personality',decide:'Your question. Everyone’s choice.',house:'16 × 16 pixels of your own',minute:'25 words. One odd one out.',finds:'Little discoveries, every day'};
+    const facts={caption:'A fresh picture every day',majority:'Predictions and real answers',arena:'One winner in every pair',memory:'30 seconds to sketch',papers:'3 documents with personality',decide:'Your question. Everyone’s choice.',house:'16 × 16 pixels of your own',minute:'25 words. One odd one out.',finds:'Little discoveries, every day'};
     $('#hero').innerHTML=`${config.apps.length>1?'<a class="back" href="/">← All diversions</a>':''}<div class="title-row"><div><p class="eyebrow">MINUTE CLUB / ${item[4]}</p><h1>${escape(item[1])}</h1><p class="lede">${escape(item[2])}</p><div class="hero-context"><span class="context-symbol" aria-hidden="true">✳</span><span>${facts[app]}</span></div></div><span class="hero-symbol" aria-hidden="true">${{caption:'“',majority:'½',arena:'vs',memory:'↶',papers:'§',decide:'?',house:'▦',minute:'60',finds:'!'}[app]}</span></div>`;
     const {mount}=await import(`/locales/en/${app}/app.js`);await mount(config);
   }

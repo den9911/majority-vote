@@ -10,6 +10,8 @@ import { openStore, transaction } from './store.mjs';
 import { apps, questions, scenes, dayKey, dayNumber, dailyPuzzle } from './content.mjs';
 import { HttpError, text, integer, validDay, decodeImage } from './validation.mjs';
 import { primaryApp } from './project.mjs';
+import { validateCatalog } from './majority-catalog.mjs';
+import { prepareMajority } from './majority.mjs';
 
 const zip = promisify(gzip);
 const publicRoot = fileURLToPath(new URL('../public/', import.meta.url));
@@ -18,6 +20,7 @@ const postFields = 'id,kind,title,body,category,day,status,votes,created,CASE WH
 
 /** One HTTP process, one SQLite writer; do not run multiple cluster workers on the same database. */
 export async function createApp(options = {}) {
+  const majorityCatalog=validateCatalog(options.majorityQuestions??questions);
   const dataDir = resolve(options.dataDir ?? process.env.DATA_DIR ?? './data');
   await mkdir(dataDir, { recursive:true, mode:0o700 });
   let secret = options.secret;
@@ -30,6 +33,9 @@ export async function createApp(options = {}) {
     }
   }
   const db = openStore(resolve(dataDir,'minute.sqlite'));
+  let majority;
+  try { majority=prepareMajority(db,majorityCatalog); } catch(error) { db.close();throw error; }
+  let reportedFailure=false;
   const appId=options.appId ?? process.env.APP_ID ?? primaryApp;
   if (appId && ![...apps.map(a=>a[0]),'mischief'].includes(appId)) throw new Error('Unknown APP_ID');
   const adminToken = options.adminToken ?? process.env.ADMIN_TOKEN ?? '';
@@ -63,14 +69,14 @@ export async function createApp(options = {}) {
     res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'});
     res.end(JSON.stringify(value));
   }
-  async function body(req) {
-    if (Number(req.headers['content-length'])>700000) {req.resume();throw new HttpError(413,'Слишком большой запрос.');}
+  async function body(req,maximum=700000) {
+    if (Number(req.headers['content-length'])>maximum) {req.resume();throw new HttpError(413,'Слишком большой запрос.');}
     if (!req.headers['content-type']?.startsWith('application/json')) throw new HttpError(415,'Нужен JSON.');
     const expected = origin || `http://${req.headers.host}`;
     if (req.headers.origin && req.headers.origin !== new URL(expected).origin) throw new HttpError(403,'Чужой источник запроса.');
     if (req.headers['sec-fetch-site'] === 'cross-site') throw new HttpError(403,'Чужой источник запроса.');
     const chunks=[]; let bytes=0;
-    for await (const chunk of req) { bytes+=chunk.length; if (bytes>700000) throw new HttpError(413,'Слишком большой запрос.'); chunks.push(chunk); }
+    for await (const chunk of req) { bytes+=chunk.length; if (bytes>maximum) throw new HttpError(413,'Слишком большой запрос.'); chunks.push(chunk); }
     try { const result=JSON.parse(Buffer.concat(chunks).toString('utf8')); if (!result || Array.isArray(result) || typeof result!=='object') throw new Error(); return result; }
     catch { throw new HttpError(400,'Некорректный JSON.'); }
   }
@@ -116,7 +122,7 @@ export async function createApp(options = {}) {
       if (path.startsWith('/api/')) {
         throttle(req,req.method === 'POST' ? 'write':'read',req.method === 'POST' ? 40:240);
         const sid=session(req,res);
-        const input=req.method === 'POST' ? await body(req) : null;
+        const input=req.method === 'POST' ? await body(req,path==='/api/majority'?1024:700000) : null;
         const method=req.method;
         if (path==='/api/config' && method==='GET') return json(res,{apps:appId?apps.filter(a=>a[0]===appId):apps,day:today(),timezone,maxImageBytes:500000});
         if (path==='/api/captions' && method==='GET') {
@@ -140,13 +146,8 @@ export async function createApp(options = {}) {
           transaction(db,()=>{ approvedPost(input.id,'caption'); once('caption',input.id,sid); db.prepare('UPDATE posts SET votes=votes+1 WHERE id=?').run(input.id); });
           return json(res,{ok:true});
         }
-        if (path==='/api/majority' && method==='GET') {
-          return json(res,{questions:questions.map(([question,a,b],id)=>({id,question,options:[a,b],counts:[0,1].map(i=>db.prepare("SELECT COUNT(*) AS n FROM votes WHERE scope='majority' AND target=? AND choice=?").get(String(id),String(i)).n),choice:db.prepare("SELECT choice FROM votes WHERE scope='majority' AND target=? AND voter=?").get(String(id),sid)?.choice ?? null}))});
-        }
-        if (path==='/api/majority' && method==='POST') {
-          integer(input.id,0,questions.length-1); integer(input.choice,0,1);
-          once('majority',String(input.id),sid,input.choice); return json(res,{ok:true});
-        }
+        if (path==='/api/majority' && method==='GET') return json(res,majority.read(sid));
+        if (path==='/api/majority' && method==='POST') return json(res,majority.answer(sid,input));
         if (path==='/api/arena' && method==='GET') {
           const candidates=db.prepare(`SELECT ${postFields} FROM posts WHERE kind='arena' AND status='approved' ORDER BY created DESC LIMIT 100`).all();
           const used=new Set(db.prepare("SELECT target FROM votes WHERE scope='arena' AND voter=?").all(sid).map(r=>r.target));
@@ -310,8 +311,8 @@ export async function createApp(options = {}) {
     } catch (error) {
       if (res.headersSent) return res.end();
       const status=error.status ?? (error.code==='ENOENT' || error.code==='ENOTDIR' ? 404:500);
-      if (status===500) console.error(error);
-      json(res,{error:status===500?'Что-то пошло не так. Попробуйте ещё раз.':status===404?'Не найдено.':error.message},status);
+      if (status===500&&!reportedFailure) {console.error('Request processing failed; inspect the database and server configuration');reportedFailure=true;}
+      json(res,{error:status===500?'Что-то пошло не так. Попробуйте ещё раз.':status===404?'Не найдено.':error.message,...(error.publicCode?{code:error.publicCode}:{})},status);
     }
   });
   server.requestTimeout=15000; server.headersTimeout=10000; server.maxHeadersCount=60;

@@ -14,7 +14,7 @@ export async function api(path, input, headers = {}) {
   const response = await fetch(path,{method:input===undefined?'GET':'POST',headers:{...(input===undefined?{}:{'Content-Type':'application/json'}),...headers},...(input===undefined?{}:{body:JSON.stringify(input)})});
   const result=await response.json();
   const {localizeResponse,localizeError}=await import('./editorial.js');
-  if (!response.ok) {const error=new Error(localizeError(result.error??'Не удалось выполнить запрос.'));error.status=response.status;throw error;}
+  if (!response.ok) {const error=new Error(localizeError(result.error??'Не удалось выполнить запрос.'));error.status=response.status;error.code=result.code;throw error;}
   return localizeResponse(path,result);
 }
 export function action(element, handler, event='click') {

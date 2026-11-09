@@ -87,3 +87,9 @@ The build emits ordinary ES2022 JavaScript, then compiles the two locale variant
 
 
 Startup diagnostics / Проверка запуска: `node server/index.mjs --check` checks the local address, configuration and writable data location without creating a database or starting the API. To use another port: `--port 3005`. No tokens are printed. / База и сервер при проверке не создаются; секреты не выводятся.
+
+## Answers keep their identity
+
+Question links use permanent IDs. Reordering or adding questions preserves votes and local forecasts. Updated wording keeps the version you answered; changing the meaning or option order requires a new ID. Old numbered links use a frozen migration map. Unverifiable old forecasts stay on your device and are not silently reassigned.
+
+Before deploying this update, stop the previous process and back up SQLite plus `session-key`. See [the upgrade contract](OPERATIONS.md#stable-question-identities).
