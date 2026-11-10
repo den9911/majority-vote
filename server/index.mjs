@@ -309,6 +309,7 @@ export async function createApp(options = {}) {
       if (compressed) res.setHeader('Content-Encoding','gzip');
       res.writeHead(200,{'Content-Type':type,'Content-Length':bytes.length});res.end(req.method==='HEAD'?undefined:bytes);
     } catch (error) {
+      if (req.aborted || res.destroyed) return;
       if (res.headersSent) return res.end();
       const status=error.status ?? (error.code==='ENOENT' || error.code==='ENOTDIR' ? 404:500);
       if (status===500&&!reportedFailure) {console.error('Request processing failed; inspect the database and server configuration');reportedFailure=true;}

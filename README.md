@@ -93,3 +93,5 @@ Startup diagnostics / Проверка запуска: `node server/index.mjs --
 Question links use permanent IDs. Reordering or adding questions preserves votes and local forecasts. Updated wording keeps the version you answered; changing the meaning or option order requires a new ID. Old numbered links use a frozen migration map. Unverifiable old forecasts stay on your device and are not silently reassigned.
 
 Before deploying this update, stop the previous process and back up SQLite plus `session-key`. See [the upgrade contract](OPERATIONS.md#stable-question-identities).
+
+Unconfirmed answers stay clearly marked until you choose **Check answer**. Restart and interrupted-save regressions verify that retries never add a second vote.

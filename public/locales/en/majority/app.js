@@ -6,6 +6,7 @@ export async function mount() {
   let selected=resolveQuestion(new URLSearchParams(location.search).get('q'),data.questions,data.legacyIds);
   let forecasts=readPredictions(storage.get(predictionKey));
   const hasLegacyForecast=data.legacyIds.some((_,index)=>storage.get(`prediction:${index}`)!==null);
+  const uncertain=new Set();
   let legacyNotice=hasLegacyForecast&&!storage.get('majority-legacy-notice-dismissed',false),busy=false;
 
   async function load(){
@@ -21,7 +22,8 @@ export async function mount() {
       action($('#restart'),()=>navigate(data.questions[0].id));return;
     }
     const answered=q.choice!==null,total=q.counts.reduce((a,b)=>a+b,0),shown=q.answerSnapshot??q,prediction=predictionFor(forecasts,q);
-    const notices=`${legacyNotice?'<div class="note"><p>Old predictions remain on this device but cannot be linked to new IDs: their version cannot be verified. Make a new prediction.</p><button id="dismiss-legacy" class="text-button">Got it</button></div>':''}${data.unassignedLegacy?'<p class="note">Some old answers could not be matched reliably. They remain unchanged and have not been added to other questions.</p>':''}${q.answerSnapshot?'<p class="note">The wording changed. This is the question you answered; your vote is preserved.</p>':''}`;
+    const recovery=uncertain.has(q.id)?'<div class="note" role="alert"><p>Your answer is unconfirmed. Check its status before making another choice.</p><button id="check-answer" class="secondary">Check answer</button></div>':'';
+    const notices=`${recovery}${legacyNotice?'<div class="note"><p>Old predictions remain on this device but cannot be linked to new IDs: their version cannot be verified. Make a new prediction.</p><button id="dismiss-legacy" class="text-button">Got it</button></div>':''}${data.unassignedLegacy?'<p class="note">Some old answers could not be matched reliably. They remain unchanged and have not been added to other questions.</p>':''}${q.answerSnapshot?'<p class="note">The wording changed. This is the question you answered; your vote is preserved.</p>':''}`;
     $('#app').innerHTML=`<div class="narrow">${notices}<div class="panel question-box" aria-busy="${busy}"><div class="row between"><span class="question-number">QUESTION ${String(index+1).padStart(2,'0')} / ${data.questions.length}</span><span class="pill">${total} answers</span></div><h2>${escape(shown.question)}</h2>${!answered?`<div class="stack"><p class="small muted">Predict the crowd’s choice, then give your own answer.</p><div class="row tabs">${shown.options.map((option,i)=>`<button class="prediction secondary" data-index="${i}" aria-pressed="${prediction===i}">${escape(option)}</button>`).join('')}</div><div class="divider"></div><p class="small muted">And your choice?</p><div class="choice-grid">${shown.options.map((option,i)=>`<button class="choice" data-index="${i}">${escape(option)}</button>`).join('')}</div></div>`:`<div class="stack"><p class="note">${q.counts[0]===q.counts[1]?'It is a tie for now.':Number(q.choice)===(q.counts[0]>q.counts[1]?0:1)?'You are with the majority.':'You have a mind of your own.'}${prediction!==null?` ${q.counts[0]===q.counts[1]?'':prediction===(q.counts[0]>q.counts[1]?0:1)?'Your prediction was right!':'The crowd surprised you.'}`:''}</p><div>${shown.options.map((option,i)=>`<div class="result-line"><div class="row"><span>${escape(option)} ${Number(q.choice)===i?'✓':''}</span><strong>${total?Math.round(q.counts[i]/total*100):0}%</strong></div><progress max="${Math.max(1,total)}" value="${q.counts[i]}" aria-label="${escape(option)}"></progress></div>`).join('')}</div><button class="secondary" id="share">Ask your friends ↗</button></div>`}<div class="row between question-footer"><button id="prev" class="text-button" ${index===0?'disabled':''}>← Previous</button><button id="next" class="text-button">${index===data.questions.length-1?'Back to the first':'Next'} →</button></div></div><p class="small muted section-gap">Real visitor answers only. Your vote is saved for this browser.</p></div>`;
     $$('.prediction').forEach(button=>action(button,()=>{
       forecasts=savePrediction(forecasts,q.id,q.revision,Number(button.dataset.index));storage.set(predictionKey,forecasts);render();
@@ -31,10 +33,10 @@ export async function mount() {
       const choice=Number(button.dataset.index);busy=true;render();
       try{
         await api('/api/majority',{id:q.id,revision:q.revision,choice});
-        data=await load();
+        data=await load();uncertain.clear();
       }catch(error){
         // A missing response is not proof of failure. Read the committed state; never submit another vote automatically.
-        try{data=await load();}catch{throw new Error('Your answer is unconfirmed. Check your connection, refresh the page, then retry the same choice.');}
+        try{data=await load();uncertain.clear();}catch{uncertain.add(q.id);throw new Error('Your answer is unconfirmed. Check your connection, refresh the page, then retry the same choice.');}
         if(data.questions.find(row=>row.id===q.id)?.choice!==String(choice))throw error;
       }finally{busy=false;render();}
     }));
@@ -42,6 +44,11 @@ export async function mount() {
     action($('#next'),()=>navigate(data.questions[(index+1)%data.questions.length].id));
     if($('#share'))action($('#share'),()=>share(`${location.origin}/majority/?q=${q.id}`,'Majority Vote',shown.question));
     if($('#dismiss-legacy'))action($('#dismiss-legacy'),()=>{legacyNotice=false;storage.set('majority-legacy-notice-dismissed',true);render();});
+    if($('#check-answer'))action($('#check-answer'),async()=>{
+      busy=true;render();
+      try{data=await load();uncertain.clear();}finally{busy=false;render();}
+    });
+    if(uncertain.has(q.id))$$('.choice,.prediction').forEach(button=>button.disabled=true);
     if(busy)$$('button',$('#app')).forEach(button=>button.disabled=true);
   }
   render();
